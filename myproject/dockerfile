@@ -1,14 +1,25 @@
-
 FROM python:3.11-slim
+
+# Instalación de dependencias del sistema necesarias para mysqlclient y otras
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    default-libmysqlclient-dev \
+    pkg-config \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Establece directorio de trabajo
 WORKDIR /app
 
-
+# Copia e instala las dependencias de Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-
+# Copia el resto del código
 COPY . .
 
+# Expone el puerto
 EXPOSE 8000
 
+# Comando por defecto
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

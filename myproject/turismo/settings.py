@@ -11,19 +11,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
 import environ
+
+# BASE_DIR = ruta base del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Inicializa entorno
 env = environ.Env()
-environ.Env.read_env()  # lee el .env
+environ.Env.read_env(BASE_DIR / '.env')  # lee el archivo .env desde la raíz del proyecto
 
 # Secret key y debug
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
